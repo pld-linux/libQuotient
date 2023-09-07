@@ -7,7 +7,7 @@
 Summary:	libQuotient
 Name:		libQuotient
 Version:	0.8.1.1
-Release:	1
+Release:	2
 License:	LGPL v2.1+
 Group:		X11/Libraries
 Source0:	https://github.com/quotient-im/libQuotient/archive/refs/tags/%{version}.tar.gz
@@ -81,4 +81,5 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/cmake/Quotient
 %{_libdir}/libQuotient.so
 %{_pkgconfigdir}/Quotient.pc
+%dir %{_datadir}/ndk-modules
 %{_datadir}/ndk-modules/Android.mk
