@@ -9,7 +9,7 @@
 Summary:	libQuotient
 Name:		libQuotient
 Version:	0.8.1.2
-Release:	1
+Release:	2
 License:	LGPL v2.1+
 Group:		X11/Libraries
 Source0:	https://github.com/quotient-im/libQuotient/archive/refs/tags/%{version}.tar.gz
@@ -27,6 +27,7 @@ BuildRequires:	qt6-build >= %{qtver}
 %endif
 BuildRequires:	cmake >= 3.20
 BuildRequires:	ninja
+BuildRequires:	olm-devel
 BuildRequires:	rpmbuild(macros) >= 1.164
 BuildRequires:	shared-mime-info
 BuildRequires:	tar >= 1:1.22
@@ -99,7 +100,8 @@ ctest --test-dir build
 	-G Ninja \
 	%{!?with_tests:-DBUILD_TESTING=OFF} \
 	-DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
-	-DBUILD_WITH_QT6=ON
+	-DBUILD_WITH_QT6=ON \
+	-DQuotient_ENABLE_E2EE=ON
 %ninja_build -C build6
 
 %if %{with tests}
