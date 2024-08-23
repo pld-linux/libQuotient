@@ -8,12 +8,12 @@
 %define		qtver		5.15.2
 Summary:	libQuotient
 Name:		libQuotient
-Version:	0.8.1.2
-Release:	2
+Version:	0.8.2
+Release:	1
 License:	LGPL v2.1+
 Group:		X11/Libraries
 Source0:	https://github.com/quotient-im/libQuotient/archive/refs/tags/%{version}.tar.gz
-# Source0-md5:	008cced6e9e409f5025563d12e1a6be4
+# Source0-md5:	5f5799bed02806d21680a8a5fae06f44
 URL:		https://github.com/quotient-im/libQuotient
 %if %{with qt5}
 BuildRequires:	Qt5Core-devel >= %{qtver}
