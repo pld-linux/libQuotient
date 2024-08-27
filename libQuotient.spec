@@ -1,12 +1,14 @@
 #
 # Conditional build:
-%bcond_without	qt5		# build qt5 version
-%bcond_without	qt6		# build qt6 version
-%bcond_with	tests		# build with tests
+%bcond_without	qt5		# Qt5 version
+%bcond_without	qt6		# Qt6 version
+%bcond_with	tests		# unit tests
+
 %define		kdeappsver	23.08.0
 %define		kframever	5.94.0
 %define		qtver		5.15.2
-Summary:	libQuotient
+Summary:	Qt5 library for Matrix clients
+Summary(pl.UTF-8):	Biblioteka Qt5 dla klientów Matriksa
 Name:		libQuotient
 Version:	0.8.2
 Release:	1
@@ -36,46 +38,62 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 The Quotient project aims to produce a Qt-based SDK to develop
-applications for [Matrix](https://matrix.org). libQuotient is a
+applications for Matrix (<https://matrix.org/>). libQuotient is a
 library that enables client applications. It is the backbone of
-[Quaternion](https://github.com/quotient-im/Quaternion),
-[NeoChat](https://matrix.org/docs/projects/client/neo-chat) and other
-projects.
+Quaternion (<https://github.com/quotient-im/Quaternion>), NeoChat
+(<https://matrix.org/ecosystem/clients/neochat/>) and other projects.
+
+%description -l pl.UTF-8
+Celem projektu Quotient jest stworzenie opartego na Qt SDK do
+tworzenia aplikacji dla Matriksa (<https://matrix.org/>). libQuotient
+to biblioteka pozwalająca na tworzenie aplikacji klienckich. Jest to
+podstawa projektów takich jak Quaternion
+(<https://github.com/quotient-im/Quaternion>) czy NeoChat
+(<https://matrix.org/ecosystem/clients/neochat/>).
 
 %package devel
-Summary:	Header files for %{name} development
-Summary(pl.UTF-8):	Pliki nagłówkowe dla programistów używających %{name}
+Summary:	Header files for Qt5 libQuotient development
+Summary(pl.UTF-8):	Pliki nagłówkowe dla programistów używających libQuotient z Qt5
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description devel
-Header files for %{name} development.
+Header files for Qt5 libQuotient development.
 
 %description devel -l pl.UTF-8
-Pliki nagłówkowe dla programistów używających %{name}.
+Pliki nagłówkowe dla programistów używających libQuotient z Qt5.
 
 %package -n libQuotient-qt6
-Summary:	libQuotient Qt6
+Summary:	Qt6 library for Matrix clients
+Summary(pl.UTF-8):	Biblioteka Qt6 dla klientów Matriksa
+Group:		X11/Development/Libraries
 
 %description -n libQuotient-qt6
 The Quotient project aims to produce a Qt-based SDK to develop
-applications for [Matrix](https://matrix.org). libQuotient is a
+applications for Matrix (<https://matrix.org/>). libQuotient is a
 library that enables client applications. It is the backbone of
-[Quaternion](https://github.com/quotient-im/Quaternion),
-[NeoChat](https://matrix.org/docs/projects/client/neo-chat) and other
-projects.
+Quaternion (<https://github.com/quotient-im/Quaternion>), NeoChat
+(<https://matrix.org/ecosystem/clients/neochat/>) and other projects.
+
+%description -n libQuotient-qt6 -l pl.UTF-8
+Celem projektu Quotient jest stworzenie opartego na Qt SDK do
+tworzenia aplikacji dla Matriksa (<https://matrix.org/>). libQuotient
+to biblioteka pozwalająca na tworzenie aplikacji klienckich. Jest to
+podstawa projektów takich jak Quaternion
+(<https://github.com/quotient-im/Quaternion>) czy NeoChat
+(<https://matrix.org/ecosystem/clients/neochat/>).
 
 %package -n libQuotient-qt6-devel
-Summary:	Header files for %{name} development
-Summary(pl.UTF-8):	Pliki nagłówkowe dla programistów używających libQuotient-qt6
+Summary:	Header files for Qt6 libQuotient development
+Summary(pl.UTF-8):	Pliki nagłówkowe dla programistów używających libQuotient z Qt6
 Group:		X11/Development/Libraries
 Requires:	libQuotient-qt6 = %{version}-%{release}
 
 %description -n libQuotient-qt6-devel
-Header files for libQuotient-qt6 development.
+Header files for Qt6 libQuotient development.
 
 %description -n libQuotient-qt6-devel -l pl.UTF-8
-Pliki nagłówkowe dla programistów używających libQuotient-qt6.
+Pliki nagłówkowe dla programistów używających libQuotient z Qt6.
 
 %prep
 %setup -q
@@ -87,6 +105,7 @@ Pliki nagłówkowe dla programistów używających libQuotient-qt6.
 	-G Ninja \
 	%{!?with_tests:-DBUILD_TESTING=OFF} \
 	-DKDE_INSTALL_USE_QT_SYS_PATHS=ON
+
 %ninja_build -C build
 
 %if %{with tests}
@@ -102,6 +121,7 @@ ctest --test-dir build
 	-DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
 	-DBUILD_WITH_QT6=ON \
 	-DQuotient_ENABLE_E2EE=ON
+
 %ninja_build -C build6
 
 %if %{with tests}
@@ -123,23 +143,23 @@ rm -rf $RPM_BUILD_ROOT
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
+%post	-p /sbin/ldconfig
+%postun	-p /sbin/ldconfig
 
-%post -n libQuotient-qt6 -p /sbin/ldconfig
-%postun -n libQuotient-qt6  -p /sbin/ldconfig
+%post	-n libQuotient-qt6 -p /sbin/ldconfig
+%postun	-n libQuotient-qt6 -p /sbin/ldconfig
 
 %if %{with qt5}
 %files
 %defattr(644,root,root,755)
-%ghost %{_libdir}/libQuotient.so.0.8
 %attr(755,root,root) %{_libdir}/libQuotient.so.*.*.*
+%ghost %{_libdir}/libQuotient.so.0.8
 
 %files devel
 %defattr(644,root,root,755)
+%{_libdir}/libQuotient.so
 %{_includedir}/Quotient
 %{_libdir}/cmake/Quotient
-%{_libdir}/libQuotient.so
 %{_pkgconfigdir}/Quotient.pc
 %dir %{_datadir}/ndk-modules
 %{_datadir}/ndk-modules/Android.mk
@@ -148,15 +168,15 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with qt6}
 %files -n libQuotient-qt6
 %defattr(644,root,root,755)
-%ghost %{_libdir}/libQuotientQt6.so.0.8
 %attr(755,root,root) %{_libdir}/libQuotientQt6.so.*.*.*
+%ghost %{_libdir}/libQuotientQt6.so.0.8
 
 %files -n libQuotient-qt6-devel
 %defattr(644,root,root,755)
-%{_libdir}/cmake/QuotientQt6
 %{_libdir}/libQuotientQt6.so
+%{_includedir}/Quotient
+%{_libdir}/cmake/QuotientQt6
 %{_pkgconfigdir}/QuotientQt6.pc
 %dir %{_datadir}/ndk-modules
 %{_datadir}/ndk-modules/Android.mk
 %endif
-
