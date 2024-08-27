@@ -4,9 +4,8 @@
 %bcond_without	qt6		# Qt6 version
 %bcond_with	tests		# unit tests
 
-%define		kdeappsver	23.08.0
-%define		kframever	5.94.0
-%define		qtver		5.15.2
+%define		qt5_ver		5.15.2
+%define		qt6_ver		6.0
 Summary:	Qt5 library for Matrix clients
 Summary(pl.UTF-8):	Biblioteka Qt5 dla klientów Matriksa
 Name:		libQuotient
@@ -18,19 +17,29 @@ Source0:	https://github.com/quotient-im/libQuotient/archive/refs/tags/%{version}
 # Source0-md5:	5f5799bed02806d21680a8a5fae06f44
 URL:		https://github.com/quotient-im/libQuotient
 %if %{with qt5}
-BuildRequires:	Qt5Core-devel >= %{qtver}
+BuildRequires:	Qt5Core-devel >= %{qt5_ver}
+BuildRequires:	Qt5Gui-devel >= %{qt5_ver}
 BuildRequires:	Qt5Keychain-devel
-BuildRequires:	qt5-build >= %{qtver}
+BuildRequires:	Qt5Multimedia-devel >= %{qt5_ver}
+BuildRequires:	Qt5Network-devel >= %{qt5_ver}
+BuildRequires:	Qt5Test-devel >= %{qt5_ver}
+BuildRequires:	qt5-build >= %{qt5_ver}
 %endif
 %if %{with qt6}
-BuildRequires:	Qt6Core-devel >= %{qtver}
+BuildRequires:	Qt6Core-devel >= %{qt6_ver}
+BuildRequires:	Qt6Gui-devel >= %{qt6_ver}
 BuildRequires:	Qt6Keychain-devel
-BuildRequires:	qt6-build >= %{qtver}
+BuildRequires:	Qt6Network-devel >= %{qt6_ver}
+BuildRequires:	Qt6Sql-devel >= %{qt6_ver}
+BuildRequires:	Qt6Test-devel >= %{qt6_ver}
+BuildRequires:	olm-devel >= 3.2.5
+BuildRequires:	openssl-devel >= 1.1.0
+BuildRequires:	qt6-build >= %{qt6_ver}
 %endif
 BuildRequires:	cmake >= 3.20
+BuildRequires:	libstdc++-devel >= 6:11
 BuildRequires:	ninja
-BuildRequires:	olm-devel
-BuildRequires:	rpmbuild(macros) >= 1.164
+BuildRequires:	rpmbuild(macros) >= 1.605
 BuildRequires:	shared-mime-info
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
@@ -56,6 +65,11 @@ Summary:	Header files for Qt5 libQuotient development
 Summary(pl.UTF-8):	Pliki nagłówkowe dla programistów używających libQuotient z Qt5
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	Qt5Core-devel >= %{qt5_ver}
+Requires:	Qt5Gui-devel >= %{qt5_ver}
+Requires:	Qt5Keychain-devel
+Requires:	Qt5Network-devel >= %{qt5_ver}
+Requires:	libstdc++-devel >= 6:11
 
 %description devel
 Header files for Qt5 libQuotient development.
@@ -88,6 +102,14 @@ Summary:	Header files for Qt6 libQuotient development
 Summary(pl.UTF-8):	Pliki nagłówkowe dla programistów używających libQuotient z Qt6
 Group:		X11/Development/Libraries
 Requires:	libQuotient-qt6 = %{version}-%{release}
+Requires:	Qt6Core-devel >= %{qt6_ver}
+Requires:	Qt6Gui-devel >= %{qt6_ver}
+Requires:	Qt6Keychain-devel
+Requires:	Qt6Network-devel >= %{qt6_ver}
+Requires:	Qt6Sql-devel >= %{qt6_ver}
+Requires:	Qt6Test-devel >= %{qt6_ver}
+Requires:	libstdc++-devel >= 6:11
+Requires:	olm-devel >= 3.2.5
 
 %description -n libQuotient-qt6-devel
 Header files for Qt6 libQuotient development.
