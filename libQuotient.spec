@@ -26,7 +26,7 @@ BuildRequires:	qt6-build >= %{qt_ver}
 BuildRequires:	cmake >= 3.26
 BuildRequires:	libstdc++-devel >= 6:13
 BuildRequires:	ninja
-BuildRequires:	rpmbuild(macros) >= 1.605
+BuildRequires:	rpmbuild(macros) >= 1.736
 BuildRequires:	shared-mime-info
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
