@@ -93,8 +93,10 @@ Pliki nagłówkowe dla programistów używających libQuotient z Qt6.
 	-B build \
 	-G Ninja \
 	%{!?with_tests:-DBUILD_TESTING=OFF} \
-	-DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
 	-DBUILD_WITH_QT6=ON \
+	-DCMAKE_INSTALL_INCLUDEDIR=include \
+	-DCMAKE_INSTALL_LIBDIR=%{_lib} \
+	-DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
 	-DQuotient_ENABLE_E2EE=ON
 
 %ninja_build -C build
